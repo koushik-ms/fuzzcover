@@ -20,12 +20,14 @@ target_link_libraries(fuzzer PRIVATE -fsanitize=fuzzer libfuzzcover)
 # binary that executes the test function with the corpus
 add_executable(tester examples/tester.cpp)
 target_include_directories(tester PRIVATE examples/json/include)
+target_link_libraries(tester PRIVATE src)
 target_compile_options(tester PRIVATE -g -O1 -fprofile-instr-generate -fcoverage-mapping)
 target_link_libraries(tester PRIVATE -fprofile-instr-generate -fcoverage-mapping libfuzzcover)
 
 # binary that dumps the corpus in JSON format
 add_executable(dumper examples/dumper.cpp)
 target_include_directories(dumper PRIVATE examples/json/include)
+target_link_libraries(dumper PRIVATE src)
 target_link_libraries(dumper PRIVATE libfuzzcover)
 
 ##############################################################################
