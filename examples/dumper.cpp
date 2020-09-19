@@ -1,4 +1,4 @@
-#include "/gilded-rose/fuzzer/gilded_rose_fuzz.hpp"
+#include "gilded-rose/fuzzer/gilded_rose_fuzz.hpp"
 
 int main(int argc, char* argv[])
 {

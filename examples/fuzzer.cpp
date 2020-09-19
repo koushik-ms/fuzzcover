@@ -1,4 +1,4 @@
-#include "/gilded-rose/fuzzer/gilded_rose_fuzz.hpp"
+#include "gilded-rose/fuzzer/gilded_rose_fuzz.hpp"
 
 extern "C" int LLVMFuzzerTestOneInput(const std::uint8_t* data, std::size_t size)
 {
