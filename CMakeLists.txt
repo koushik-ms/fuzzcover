@@ -33,7 +33,7 @@ set(CORPUS_DIRECTORY ${CMAKE_BINARY_DIR}/corpus)
 
 add_custom_target(run_fuzzer
     COMMAND ${CMAKE_COMMAND} -E make_directory ${CORPUS_DIRECTORY}
-    COMMAND ${CMAKE_CURRENT_BINARY_DIR}/fuzzer -jobs=64 -workers=8 ${CORPUS_DIRECTORY}
+    COMMAND ${CMAKE_CURRENT_BINARY_DIR}/fuzzer -jobs=64 -workers=8 -max_len=8 -max_total_time=60 ${CORPUS_DIRECTORY}
     # COMMAND ${CMAKE_CURRENT_BINARY_DIR}/fuzzer ${CORPUS_DIRECTORY}
     COMMENT "running fuzzer"
 )
