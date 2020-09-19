@@ -11,7 +11,9 @@ target_compile_features(libfuzzcover INTERFACE cxx_std_11)
 
 # binary that does the actual fuzzing
 add_executable(fuzzer examples/fuzzer.cpp)
-target_include_directories(fuzzer PRIVATE examples/json/include)
+target_include_directories(fuzzer PRIVATE examples)
+add_subdirectory(examples/gilded-rose/src)
+target_link_libraries(fuzzer PRIVATE src)
 target_compile_options(fuzzer PRIVATE -fsanitize=fuzzer-no-link)
 target_link_libraries(fuzzer PRIVATE -fsanitize=fuzzer libfuzzcover)
 

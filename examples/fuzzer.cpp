@@ -1,7 +1,7 @@
-#include "json/fuzzer_parse.hpp"
+#include "/gilded-rose/fuzzer/gilded_rose_fuzz.hpp"
 
 extern "C" int LLVMFuzzerTestOneInput(const std::uint8_t* data, std::size_t size)
 {
-    fuzzer_parse().fuzz(data, size);
+    gilded_rose_fuzz().fuzz(data, size);
     return 0;
 }
