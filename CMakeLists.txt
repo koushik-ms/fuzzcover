@@ -10,24 +10,20 @@ target_compile_features(libfuzzcover INTERFACE cxx_std_11)
 ##############################################################################
 
 # binary that does the actual fuzzing
-add_executable(fuzzer examples/fuzzer.cpp)
+add_executable(fuzzer examples/fuzzer.cpp examples/gilded-rose/src/GildedRose.cc)
 target_include_directories(fuzzer PRIVATE examples)
-add_subdirectory(examples/gilded-rose/src)
-target_link_libraries(fuzzer PRIVATE src)
 target_compile_options(fuzzer PRIVATE -fsanitize=fuzzer-no-link)
 target_link_libraries(fuzzer PRIVATE -fsanitize=fuzzer libfuzzcover)
 
 # binary that executes the test function with the corpus
-add_executable(tester examples/tester.cpp)
-target_include_directories(tester PRIVATE examples/json/include)
-target_link_libraries(tester PRIVATE src)
+add_executable(tester examples/tester.cpp examples/gilded-rose/src/GildedRose.cc)
+target_include_directories(tester PRIVATE examples)
 target_compile_options(tester PRIVATE -g -O1 -fprofile-instr-generate -fcoverage-mapping)
 target_link_libraries(tester PRIVATE -fprofile-instr-generate -fcoverage-mapping libfuzzcover)
 
 # binary that dumps the corpus in JSON format
-add_executable(dumper examples/dumper.cpp)
-target_include_directories(dumper PRIVATE examples/json/include)
-target_link_libraries(dumper PRIVATE src)
+add_executable(dumper examples/dumper.cpp examples/gilded-rose/src/GildedRose.cc)
+target_include_directories(dumper PRIVATE examples)
 target_link_libraries(dumper PRIVATE libfuzzcover)
 
 ##############################################################################
@@ -38,7 +34,8 @@ set(CORPUS_DIRECTORY ${CMAKE_BINARY_DIR}/corpus)
 add_custom_target(run_fuzzer
     COMMAND ${CMAKE_COMMAND} -E make_directory ${CORPUS_DIRECTORY}
     #COMMAND ${CMAKE_CURRENT_BINARY_DIR}/fuzzer -jobs=64 -workers=8 ${CORPUS_DIRECTORY}
-    COMMAND ${CMAKE_CURRENT_BINARY_DIR}/fuzzer ${CORPUS_DIRECTORY}
+    COMMAND ${CMAKE_CURRENT_BINARY_DIR}/fuzzer -jobs=8 -workers=8 -max_total_time=60 ${CORPUS_DIRECTORY}
+    # COMMAND ${CMAKE_CURRENT_BINARY_DIR}/fuzzer ${CORPUS_DIRECTORY}
     COMMENT "running fuzzer"
 )
 add_dependencies(run_fuzzer fuzzer)
